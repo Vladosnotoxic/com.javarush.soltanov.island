@@ -46,7 +46,6 @@ public class Runner {
 
                     try {
                         List<Future<Void>> results = executorService.invokeAll(taskList, 2, TimeUnit.SECONDS);
-                        for (Future<Void> future : results) future.get();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
