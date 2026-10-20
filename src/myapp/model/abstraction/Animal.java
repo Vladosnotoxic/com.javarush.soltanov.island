@@ -34,7 +34,7 @@ public abstract class Animal extends Creature {
     public abstract Animal reproduce();
 
     public void multiply(int currentDay) {
-        if (!this.isAlive && lastReproducedDay == currentDay) {
+        if (!this.isAlive || lastReproducedDay == currentDay) {
             return;
         }
         if (LocationUtil.isAnimalNonMax(location, this) && LocationUtil.isAnimalMin(location, this)) {

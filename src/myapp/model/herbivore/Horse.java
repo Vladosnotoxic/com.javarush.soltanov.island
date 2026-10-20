@@ -4,7 +4,7 @@ import myapp.Location;
 import myapp.config.AppConstants;
 import myapp.model.abstraction.Animal;
 import myapp.model.abstraction.Herbivore;
-import myapp.model.predator.Bear;
+
 
 public class Horse extends Herbivore {
     public Horse(Location location) {

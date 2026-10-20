@@ -1,6 +1,5 @@
 package myapp.utility;
 
-import myapp.Location;
 import myapp.config.AppConstants.CreatureIcon;
 import myapp.model.Plant;
 import myapp.model.abstraction.Animal;

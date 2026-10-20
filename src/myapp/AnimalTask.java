@@ -1,9 +1,7 @@
 package myapp;
 
 import myapp.model.abstraction.Animal;
-
 import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class AnimalTask implements Callable<Void> {
     private final Island island;

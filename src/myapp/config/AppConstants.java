@@ -16,7 +16,7 @@ public interface AppConstants {
         int WOLF = 10;
         int BEAR = 10;
         int HORSE = 20;
-        int MOUSE = 50;
+        int MOUSE = 40;
         int DUCK = 20;
         int CATERPILLAR = 20;
     }
