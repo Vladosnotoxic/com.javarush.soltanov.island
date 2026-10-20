@@ -1,0 +1,21 @@
+package myapp.model.herbivore;
+
+import myapp.Location;
+import myapp.config.AppConstants;
+import myapp.model.abstraction.Animal;
+import myapp.model.abstraction.Herbivore;
+import myapp.model.predator.Bear;
+
+public class Horse extends Herbivore {
+    public Horse(Location location) {
+        super(AppConstants.CreatureIcon.HORSE_ICON, AppConstants.CreatureMaxWeight.HORSE, AppConstants.CreatureMaxSize.HORSE, location);
+    }
+
+
+
+    @Override
+    public Animal reproduce() {
+        return new Horse(this.location);
+    }
+
+}
