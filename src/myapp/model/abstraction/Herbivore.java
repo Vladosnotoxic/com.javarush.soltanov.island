@@ -1,6 +1,6 @@
 package myapp.model.abstraction;
 
-import myapp.Location;
+import myapp.model.Location;
 import myapp.model.Plant;
 
 public abstract class Herbivore extends Animal {

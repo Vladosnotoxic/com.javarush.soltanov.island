@@ -1,6 +1,6 @@
 package myapp.model.abstraction;
 
-import myapp.Location;
+import myapp.model.Location;
 
 public abstract class Creature {
     protected String name;
@@ -27,6 +27,9 @@ public abstract class Creature {
         return maxSize;
     }
 
-    public abstract void die();
+    public void die() {
+        if (!isAlive) return;
+        isAlive = false;
+    }
 
 }

@@ -1,13 +1,14 @@
 package myapp.model.herbivore;
 
-import myapp.Location;
+import myapp.model.Location;
 import myapp.config.AppConstants;
 import myapp.model.abstraction.Animal;
 import myapp.model.abstraction.Herbivore;
 
 public class Duck extends Herbivore {
+
     public Duck(Location location) {
-        super(AppConstants.CreatureIcon.MOUSE_ICON, AppConstants.CreatureMaxWeight.DUCK, AppConstants.CreatureMaxSize.DUCK, location);
+        super(AppConstants.CreatureIcon.DUCK_ICON, AppConstants.CreatureMaxWeight.DUCK, AppConstants.CreatureMaxSize.DUCK, location);
     }
 
     @Override

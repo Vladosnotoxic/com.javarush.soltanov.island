@@ -4,7 +4,6 @@ import myapp.config.AppConstants;
 import myapp.model.Plant;
 import myapp.model.abstraction.Creature;
 import myapp.model.abstraction.Herbivore;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class EatUtil {
@@ -15,7 +14,5 @@ public class EatUtil {
         }
         int chance = AppConstants.chanceToEat.get(hunter.getClass()).getOrDefault(prey.getClass(), 0);
         return chance == 100 || (chance != 0 && ThreadLocalRandom.current().nextInt(100) < chance);
-
     }
-
 }

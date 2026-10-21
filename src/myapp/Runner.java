@@ -2,6 +2,8 @@ package myapp;
 
 
 import myapp.config.Configuration;
+import myapp.model.Island;
+import myapp.model.Location;
 import myapp.model.abstraction.Animal;
 import myapp.utility.PrintUtil;
 
@@ -27,7 +29,7 @@ public class Runner {
 
         Location loca = locations[0][0];
         System.out.println("Старт");
-        PrintUtil.printSchema(loca.getAnimals(), loca.getPlants());
+        PrintUtil.printResult(loca.getAnimals(), loca.getPlants());
 
         schedule.scheduleWithFixedDelay(() -> {
                     day++;
@@ -45,7 +47,7 @@ public class Runner {
                         taskList.add(new AnimalTask(island, animal, day));
 
                     try {
-                        List<Future<Void>> results = executorService.invokeAll(taskList, 2, TimeUnit.SECONDS);
+                        executorService.invokeAll(taskList, 2, TimeUnit.SECONDS);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -54,8 +56,7 @@ public class Runner {
                         for (Location loc : row) {
                             loc.getLock().lock();
                             try {
-                                loc.getAnimals().removeIf(n -> !n.isAlive());
-                                loc.getPlants().removeIf(n -> !n.isAlive());
+                                loc.removeCreature();
                                 loc.growPlants();
                             } finally {
                                 loc.getLock().unlock();
@@ -63,7 +64,7 @@ public class Runner {
                         }
                     }
 
-                    PrintUtil.printSchema(loca.getAnimals(), loca.getPlants());
+                    PrintUtil.printResult(loca.getAnimals(), loca.getPlants());
                     if (day == Configuration.SIMULATION_LAST_DAY) {
                         System.out.println("Симуляция завершена.");
                         schedule.shutdown();

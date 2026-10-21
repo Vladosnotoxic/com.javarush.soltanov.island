@@ -1,6 +1,6 @@
 package myapp.model.predator;
 
-import myapp.Location;
+import myapp.model.Location;
 import myapp.config.AppConstants;
 import myapp.model.abstraction.Animal;
 import myapp.model.abstraction.Predator;

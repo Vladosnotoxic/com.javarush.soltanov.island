@@ -1,8 +1,8 @@
-package myapp;
+package myapp.model;
 
 import myapp.config.AppConstants;
-import myapp.model.Plant;
 import myapp.model.abstraction.Animal;
+import myapp.utility.LocationUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +13,7 @@ public class Location {
     private final ArrayList<Animal> animals = new ArrayList<>();
     private final ArrayList<Plant> plants = new ArrayList<>();
     private final ReentrantLock lock = new ReentrantLock();
+
     protected Location() {
         initCreature();
     }
@@ -25,15 +26,17 @@ public class Location {
         return plants;
     }
 
-    public ReentrantLock getLock(){
+    public ReentrantLock getLock() {
         return lock;
     }
 
     public void addAnimal(Animal animal) {
         animals.add(animal);
     }
-    public void removeAnimal(Animal animal) {
-        animals.remove(animal);
+
+    public void removeCreature() {
+        animals.removeIf(n -> !n.isAlive());
+        plants.removeIf(n -> !n.isAlive());
     }
 
     private void initCreature() {
@@ -56,14 +59,13 @@ public class Location {
 
             }
         }
-
     }
 
     public void growPlants() {
-        if (plants.size() < AppConstants.CreatureMaxSize.PLANTS) {
+        if (LocationUtil.isPlantsNonMax(this)) {
             int toGrow = ThreadLocalRandom.current().nextInt(1, 30);
             for (int i = 0; i < toGrow; i++) {
-                if (plants.size() < AppConstants.CreatureMaxSize.PLANTS) {
+                if (LocationUtil.isPlantsNonMax(this)) {
                     plants.add(new Plant(this));
                 }
             }
@@ -71,7 +73,7 @@ public class Location {
     }
 
     public List<Animal> animalCopy() {
-            return List.copyOf(this.getAnimals());
+        return List.copyOf(this.getAnimals());
 
-        }
+    }
 }

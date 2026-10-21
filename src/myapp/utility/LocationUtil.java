@@ -1,13 +1,12 @@
 package myapp.utility;
 
 import myapp.config.AppConstants;
-import myapp.Location;
-import myapp.model.Plant;
+import myapp.model.Location;
 import myapp.model.abstraction.Animal;
 
 public class LocationUtil {
 
-    public static boolean isPlantsNonMax(Location location, Plant plant){
+    public static boolean isPlantsNonMax(Location location){
         return location.getPlants().size() < AppConstants.CreatureMaxSize.PLANTS;
     }
 

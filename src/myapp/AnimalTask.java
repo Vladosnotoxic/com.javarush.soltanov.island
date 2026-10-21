@@ -1,5 +1,7 @@
 package myapp;
 
+import myapp.model.Island;
+import myapp.model.Location;
 import myapp.model.abstraction.Animal;
 import java.util.concurrent.Callable;
 

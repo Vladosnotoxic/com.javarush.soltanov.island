@@ -1,6 +1,6 @@
 package myapp.model.abstraction;
 
-import myapp.Location;
+import myapp.model.Location;
 
 public abstract class Predator extends Animal {
 

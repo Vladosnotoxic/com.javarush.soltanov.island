@@ -1,19 +1,18 @@
-package myapp;
+package myapp.model;
 
 import myapp.config.Configuration;
+
 public class Island {
     private static Island INSTANCE;
     private final Location[][] locations = new Location[Configuration.SIZE_X][Configuration.SIZE_Y];
 
+    private Island() {}
 
-    private Island(){};
-
-    public static Island getInstance(){
+    public static Island getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new Island();
             INSTANCE.initLocations();
         }
-
         return INSTANCE;
     }
 

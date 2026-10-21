@@ -5,11 +5,10 @@ import myapp.model.Plant;
 import myapp.model.abstraction.Animal;
 import myapp.model.herbivore.*;
 import myapp.model.predator.*;
-
 import java.util.ArrayList;
 
 public class PrintUtil {
-    public static void printSchema(ArrayList<Animal> animals, ArrayList<Plant> plants){
+    public static void printResult(ArrayList<Animal> animals, ArrayList<Plant> plants){
 
         System.out.println("--------------------------");
         System.out.println("Количество Волков - " + CreatureIcon.WOLF_ICON + " - " + animals.stream().filter(n -> n.getClass() == Wolf.class).count());

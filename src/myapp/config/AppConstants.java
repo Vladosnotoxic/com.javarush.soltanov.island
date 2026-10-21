@@ -3,22 +3,19 @@ package myapp.config;
 import myapp.model.abstraction.Animal;
 import myapp.model.herbivore.*;
 import myapp.model.predator.*;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface AppConstants {
 
-
     interface CreatureMaxSize {
-        int PLANTS = 500;
-        int WOLF = 10;
-        int BEAR = 10;
-        int HORSE = 20;
-        int MOUSE = 40;
-        int DUCK = 20;
-        int CATERPILLAR = 20;
+        int PLANTS = 1000;
+        int WOLF = 20;
+        int BEAR = 20;
+        int HORSE = 60;
+        int MOUSE = 80;
+        int DUCK = 30;
+        int CATERPILLAR = 300;
     }
 
     interface CreatureMaxWeight {
