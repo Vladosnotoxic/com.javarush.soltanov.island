@@ -3,13 +3,14 @@ package myapp;
 import myapp.model.Island;
 import myapp.model.Location;
 import myapp.model.abstraction.Animal;
+
 import java.util.concurrent.Callable;
 
 public class AnimalTask implements Callable<Void> {
     private final Island island;
     private final Animal animal;
     private final Location location;
-    private int currentDay;
+    private final int currentDay;
 
     public AnimalTask(Island island, Animal animal, int day) {
         this.island = island;
@@ -20,17 +21,22 @@ public class AnimalTask implements Callable<Void> {
 
     @Override
     public Void call() throws Exception {
-        if (!animal.isAlive()) return null;
+        if (!animal.isAlive() || animal.getLocation() != location) return null;
+
         location.getLock().lockInterruptibly();
-        try{
+
+        try {
             if (!animal.isAlive()) return null;
-            animal.multiply(currentDay);
             animal.hunt();
+            animal.multiply(currentDay);
             animal.starve();
 
-//            System.out.println(animal.getClass().getSimpleName() + " -> сытость: " + animal.getSatiety() + ", жив: " + animal.isAlive());
-        }finally {
+        } finally {
             location.getLock().unlock();
+        }
+
+        if (animal.isAlive()) {
+            animal.move(island);
         }
         return null;
     }

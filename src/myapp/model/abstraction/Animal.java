@@ -2,9 +2,14 @@ package myapp.model.abstraction;
 
 import myapp.config.AppConstants;
 import myapp.config.Configuration;
+import myapp.model.Island;
 import myapp.model.Location;
 import myapp.utility.EatUtil;
 import myapp.utility.LocationUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Animal extends Creature {
 
@@ -19,16 +24,54 @@ public abstract class Animal extends Creature {
         maxLocationMove = setMaxLocationMove();
     }
 
+    public void move(Island island) {
+        if (!this.isAlive) return;
 
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        int maxMove = random.nextInt(this.maxLocationMove + 1);
+        List<Location> possibleLocation;
 
-    public void move(){
+        for (int k = 0; k < maxMove; k++) {
 
+            possibleLocation = checkPossibleLocation(island);
+            Location newLocation = possibleLocation.get(random.nextInt(possibleLocation.size()));
+
+            if (this.location != newLocation) {
+                if (LocationUtil.isAnimalNonMax(newLocation, this)) return;
+                this.location.transferAnimal(this, newLocation);
+                this.location = newLocation;
+            }
+        }
+    }
+
+    private List<Location> checkPossibleLocation(Island island) {
+        Location[][] allLocation = island.getLocations();
+        List<Location> possibleLocation = new ArrayList<>();
+        int foundX = 0;
+        int foundY = 0;
+
+        findLocation:
+        for (int i = 0; i < allLocation.length; i++) {
+            for (int j = 0; j < allLocation[i].length; j++) {
+                if (allLocation[i][j] == this.location) {
+                    foundX = i;
+                    foundY = j;
+                    break findLocation;
+                }
+            }
+        }
+
+        if (foundX + 1 < allLocation.length) possibleLocation.add(allLocation[foundX + 1][foundY]);
+        if (foundX - 1 >= 0) possibleLocation.add(allLocation[foundX - 1][foundY]);
+        if (foundY + 1 < allLocation[foundX].length) possibleLocation.add(allLocation[foundX][foundY + 1]);
+        if (foundY - 1 >= 0) possibleLocation.add(allLocation[foundX][foundY - 1]);
+        return possibleLocation;
     }
 
     public abstract void hunt();
 
     protected void eat(Creature prey) {
-        if (!isAlive) return;
+        if (!isAlive || this.location != prey.location) return;
         if (prey.isAlive && EatUtil.canEat(this, prey)) {
             prey.die();
             this.upSatiety(prey);
@@ -38,13 +81,13 @@ public abstract class Animal extends Creature {
     public abstract Animal reproduce();
 
     public void multiply(int currentDay) {
-        if (!this.isAlive || lastReproducedDay == currentDay || (Configuration.IS_SATIETY_FOR_MULTIPLY && this.satiety <= Configuration.DEFAULT_SATIETY) ) {
+        if (!this.isAlive || lastReproducedDay == currentDay || (Configuration.IS_SATIETY_FOR_MULTIPLY && this.satiety <= Configuration.DEFAULT_SATIETY)) {
             return;
         }
         if (LocationUtil.isAnimalNonMax(location, this) && LocationUtil.isAnimalMin(location, this)) {
-            for (Animal animal : location.getAnimals()){
-                if(!animal.isAlive) continue;
-                if(animal.getClass() == this.getClass() && animal != this && animal.lastReproducedDay != currentDay){
+            for (Animal animal : location.getAnimals()) {
+                if (!animal.isAlive) continue;
+                if (animal.getClass() == this.getClass() && animal != this && animal.lastReproducedDay != currentDay) {
                     location.addAnimal(this.reproduce());
                     animal.lastReproducedDay = currentDay;
                     this.lastReproducedDay = currentDay;
@@ -72,11 +115,11 @@ public abstract class Animal extends Creature {
         return satiety < Configuration.MAX_SATIETY;
     }
 
-    private Double setMaxEatableWeight(){
-       return AppConstants.maxEatableWeight.get(this.getClass());
+    private Double setMaxEatableWeight() {
+        return AppConstants.maxEatableWeight.get(this.getClass());
     }
 
-    private Integer setMaxLocationMove(){
+    private Integer setMaxLocationMove() {
         return AppConstants.maxLocationMove.get(this.getClass());
     }
 }

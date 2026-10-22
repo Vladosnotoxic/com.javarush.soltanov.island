@@ -4,6 +4,7 @@ import myapp.config.AppConstants;
 import myapp.model.abstraction.Animal;
 import myapp.model.abstraction.Herbivore;
 import myapp.utility.LocationUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,7 +16,7 @@ public class Location {
     private final ArrayList<Plant> plants = new ArrayList<>();
     private final ReentrantLock lock = new ReentrantLock();
 
-    protected Location() {
+    public Location() {
         initCreature();
     }
 
@@ -36,8 +37,23 @@ public class Location {
     }
 
     public void removeCreature() {
-        animals.removeIf(n -> !n.isAlive());
+        animals.removeIf(n -> !n.isAlive() || n.getLocation() != this);
         plants.removeIf(n -> !n.isAlive());
+    }
+
+    public void transferAnimal(Animal animal, Location newLocation) {
+        this.getLock().lock();
+        try {
+            this.animals.remove(animal);
+        } finally {
+            this.getLock().unlock();
+        }
+        newLocation.getLock().lock();
+        try {
+            newLocation.animals.add(animal);
+        }finally {
+            newLocation.getLock().unlock();
+        }
     }
 
     private void initCreature() {
@@ -66,7 +82,7 @@ public class Location {
 
     public void growPlants() {
         if (LocationUtil.isPlantsNonMax(this)) {
-            int toGrow = ThreadLocalRandom.current().nextInt(1, 30);
+            int toGrow = ThreadLocalRandom.current().nextInt(30, 90);
             for (int i = 0; i < toGrow; i++) {
                 if (LocationUtil.isPlantsNonMax(this)) {
                     plants.add(new Plant(this));

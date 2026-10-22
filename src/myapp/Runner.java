@@ -30,6 +30,7 @@ public class Runner {
         Location loca = locations[0][0];
         System.out.println("Старт");
         PrintUtil.printResult(loca.getAnimals(), loca.getPlants());
+        PrintUtil.printDayResult(island);
 
         schedule.scheduleWithFixedDelay(() -> {
                     day++;

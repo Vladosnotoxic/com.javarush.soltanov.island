@@ -3,7 +3,7 @@ package myapp.model.abstraction;
 import myapp.model.Location;
 
 public abstract class Creature {
-    protected String name;
+
     protected String icon;
     protected double weight;
     protected int maxSize;
