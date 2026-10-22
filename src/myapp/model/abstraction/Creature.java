@@ -17,6 +17,10 @@ public abstract class Creature {
         this.location = location;
     }
 
+    public String getIcon(){
+        return icon;
+    }
+
     public boolean isAlive(){return isAlive;}
 
     public Location getLocation(){

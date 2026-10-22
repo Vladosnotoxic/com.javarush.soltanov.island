@@ -15,4 +15,5 @@ public class EatUtil {
         int chance = AppConstants.chanceToEat.get(hunter.getClass()).getOrDefault(prey.getClass(), 0);
         return chance == 100 || (chance != 0 && ThreadLocalRandom.current().nextInt(100) < chance);
     }
+
 }

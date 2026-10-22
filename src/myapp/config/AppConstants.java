@@ -18,7 +18,7 @@ public interface AppConstants {
         int CATERPILLAR = 300;
     }
 
-    interface CreatureMaxWeight {
+    interface CreatureWeight {
         int PLANTS = 1;
         double WOLF = 50;
         double BEAR = 500;
@@ -64,4 +64,24 @@ public interface AppConstants {
                     Caterpillar.class, 90)
 
     );
+
+    Map<Class<? extends Animal>, Double> maxEatableWeight = Map.of(
+            Wolf.class, 8.0,
+            Bear.class,  80.0,
+            Horse.class, 60.0,
+            Mouse.class, 0.01,
+            Duck.class, 0.15,
+            Caterpillar.class, 0.0
+    );
+
+
+    Map<Class<? extends Animal>, Integer> maxLocationMove = Map.of(
+            Wolf.class, 3,
+            Bear.class,  2,
+            Horse.class, 4,
+            Mouse.class, 1,
+            Duck.class, 4,
+            Caterpillar.class, 0
+    );
+
 }

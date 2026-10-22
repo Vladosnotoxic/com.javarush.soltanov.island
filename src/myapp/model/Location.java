@@ -2,6 +2,7 @@ package myapp.model;
 
 import myapp.config.AppConstants;
 import myapp.model.abstraction.Animal;
+import myapp.model.abstraction.Herbivore;
 import myapp.utility.LocationUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,8 @@ public class Location {
 
     private void initCreature() {
         Random random = new Random();
-        int count = random.nextInt(10, AppConstants.CreatureMaxSize.PLANTS);
+        int minAnimal;
+        int count = random.nextInt(100, AppConstants.CreatureMaxSize.PLANTS);
 
         for (int i = 0; i < count; i++) {
             plants.add(new Plant(this));
@@ -50,7 +52,8 @@ public class Location {
         for (Class<? extends Animal> animalClass : AppConstants.spawnList) {
             try {
                 Animal newAnimal = animalClass.getDeclaredConstructor(Location.class).newInstance(this);
-                count = random.nextInt(newAnimal.getMaxSize());
+                minAnimal = newAnimal instanceof Herbivore ? 15 : 5;
+                count = random.nextInt(minAnimal, (int) (newAnimal.getMaxSize() * 0.8));
                 for (int i = 0; i < count; i++) {
                     animals.add(animalClass.getDeclaredConstructor(Location.class).newInstance(this));
                 }

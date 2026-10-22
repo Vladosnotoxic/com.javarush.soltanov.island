@@ -65,6 +65,7 @@ public class Runner {
                     }
 
                     PrintUtil.printResult(loca.getAnimals(), loca.getPlants());
+                    PrintUtil.printDayResult(island);
                     if (day == Configuration.SIMULATION_LAST_DAY) {
                         System.out.println("Симуляция завершена.");
                         schedule.shutdown();

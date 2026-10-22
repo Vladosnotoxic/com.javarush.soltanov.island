@@ -6,9 +6,10 @@ import myapp.model.abstraction.Animal;
 import myapp.model.abstraction.Herbivore;
 
 public class Mouse extends Herbivore {
+    public static int counter = 0;
 
     public Mouse(Location location) {
-        super(AppConstants.CreatureIcon.MOUSE_ICON, AppConstants.CreatureMaxWeight.MOUSE, AppConstants.CreatureMaxSize.MOUSE, location);
+        super(AppConstants.CreatureIcon.MOUSE_ICON, AppConstants.CreatureWeight.MOUSE, AppConstants.CreatureMaxSize.MOUSE, location);
     }
 
     @Override
