@@ -21,9 +21,11 @@ public class Island {
     }
 
     private void initLocations() {
+        int count = 0;
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[i].length; j++) {
-                locations[i][j] = new Location();
+                locations[i][j] = new Location(count++);
+
             }
         }
     }

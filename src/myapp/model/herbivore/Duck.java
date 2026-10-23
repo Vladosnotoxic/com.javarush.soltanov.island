@@ -6,7 +6,7 @@ import myapp.model.abstraction.Animal;
 import myapp.model.abstraction.Herbivore;
 
 public class Duck extends Herbivore {
-    public static int counter = 0;
+
 
     public Duck(Location location) {
         super(AppConstants.CreatureIcon.DUCK_ICON, AppConstants.CreatureWeight.DUCK, AppConstants.CreatureMaxSize.DUCK, location);

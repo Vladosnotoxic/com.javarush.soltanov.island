@@ -12,12 +12,14 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Location {
+    private final int id;
     private final ArrayList<Animal> animals = new ArrayList<>();
     private final ArrayList<Plant> plants = new ArrayList<>();
     private final ReentrantLock lock = new ReentrantLock();
 
-    public Location() {
+    Location(int id) {
         initCreature();
+        this.id = id;
     }
 
     public ArrayList<Animal> getAnimals() {
@@ -42,17 +44,24 @@ public class Location {
     }
 
     public void transferAnimal(Animal animal, Location newLocation) {
-        this.getLock().lock();
+
+        ReentrantLock firstLock = this.id > newLocation.id ? this.getLock() : newLocation.getLock();
+        ReentrantLock secondLock = this.id < newLocation.id ? this.getLock() : newLocation.getLock();
+
+        firstLock.lock();
         try {
-            this.animals.remove(animal);
+            secondLock.lock();
+            try {
+                if (LocationUtil.isAnimalNonMax(newLocation, animal)) {
+                    newLocation.animals.add(animal);
+                    this.animals.remove(animal);
+                    animal.setLocation(newLocation);
+                }
+            } finally {
+                secondLock.unlock();
+            }
         } finally {
-            this.getLock().unlock();
-        }
-        newLocation.getLock().lock();
-        try {
-            newLocation.animals.add(animal);
-        }finally {
-            newLocation.getLock().unlock();
+            firstLock.unlock();
         }
     }
 
@@ -68,7 +77,7 @@ public class Location {
         for (Class<? extends Animal> animalClass : AppConstants.spawnList) {
             try {
                 Animal newAnimal = animalClass.getDeclaredConstructor(Location.class).newInstance(this);
-                minAnimal = newAnimal instanceof Herbivore ? 15 : 5;
+                minAnimal = newAnimal instanceof Herbivore ? (int) (newAnimal.getMaxSize() * 0.4) : (int) (newAnimal.getMaxSize() * 0.2);
                 count = random.nextInt(minAnimal, (int) (newAnimal.getMaxSize() * 0.8));
                 for (int i = 0; i < count; i++) {
                     animals.add(animalClass.getDeclaredConstructor(Location.class).newInstance(this));
@@ -82,7 +91,7 @@ public class Location {
 
     public void growPlants() {
         if (LocationUtil.isPlantsNonMax(this)) {
-            int toGrow = ThreadLocalRandom.current().nextInt(30, 90);
+            int toGrow = ThreadLocalRandom.current().nextInt(100, 300);
             for (int i = 0; i < toGrow; i++) {
                 if (LocationUtil.isPlantsNonMax(this)) {
                     plants.add(new Plant(this));

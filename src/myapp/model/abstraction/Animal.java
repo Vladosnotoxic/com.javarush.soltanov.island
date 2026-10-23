@@ -37,9 +37,8 @@ public abstract class Animal extends Creature {
             Location newLocation = possibleLocation.get(random.nextInt(possibleLocation.size()));
 
             if (this.location != newLocation) {
-                if (LocationUtil.isAnimalNonMax(newLocation, this)) return;
                 this.location.transferAnimal(this, newLocation);
-                this.location = newLocation;
+
             }
         }
     }

@@ -6,7 +6,6 @@ import myapp.model.abstraction.Predator;
 import myapp.config.AppConstants.*;
 
 public class Wolf extends Predator {
-    public static int counter = 0;
 
     public Wolf(Location location) {
         super(CreatureIcon.WOLF_ICON, CreatureWeight.WOLF, CreatureMaxSize.WOLF, location);

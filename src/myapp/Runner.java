@@ -6,30 +6,22 @@ import myapp.model.Island;
 import myapp.model.Location;
 import myapp.model.abstraction.Animal;
 import myapp.utility.PrintUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
 public class Runner {
     private final Island island;
-    Location[][] locations;
-
     private int day = 0;
     private final ScheduledExecutorService schedule = Executors.newScheduledThreadPool(1);
     private final ExecutorService executorService = Executors.newFixedThreadPool(8);
 
     public Runner(Island island) {
         this.island = island;
-        locations = island.getLocations();
 
     }
 
     public void startSimulation() {
-
-        Location loca = locations[0][0];
-        System.out.println("Старт");
-        PrintUtil.printResult(loca.getAnimals(), loca.getPlants());
         PrintUtil.printDayResult(island);
 
         schedule.scheduleWithFixedDelay(() -> {
@@ -37,7 +29,7 @@ public class Runner {
                     System.out.println("Итоги дня: " + day);
                     List<Animal> startDayAnimal = new ArrayList<>();
 
-                    for (Location[] row : locations) {
+                    for (Location[] row : island.getLocations()) {
                         for (Location location : row) {
                             startDayAnimal.addAll(location.animalCopy());
                         }
@@ -53,7 +45,7 @@ public class Runner {
                         e.printStackTrace();
                     }
 
-                    for (Location[] row : locations) {
+                    for (Location[] row : island.getLocations()) {
                         for (Location loc : row) {
                             loc.getLock().lock();
                             try {
@@ -65,8 +57,8 @@ public class Runner {
                         }
                     }
 
-                    PrintUtil.printResult(loca.getAnimals(), loca.getPlants());
                     PrintUtil.printDayResult(island);
+
                     if (day == Configuration.SIMULATION_LAST_DAY) {
                         System.out.println("Симуляция завершена.");
                         schedule.shutdown();

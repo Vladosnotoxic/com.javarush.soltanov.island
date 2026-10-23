@@ -31,6 +31,10 @@ public abstract class Creature {
         return maxSize;
     }
 
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public void die() {
         if (!isAlive) return;
         isAlive = false;
